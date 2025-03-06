@@ -9,22 +9,21 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
         bottomRight: Radius.circular(20),
       ),
       child: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.yellow.shade200,
         elevation: 0,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Hi, Stanislav",
-              style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-          ],
-        ),
         actions: [
-          CircleAvatar(
-            backgroundColor: Colors.grey.shade300,
-            child: Text("S", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+          Row(
+            children: [
+              Text(
+                "Hi, Stanislav",
+                style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(width: 8),
+              CircleAvatar(
+                backgroundColor: Colors.grey.shade300,
+                child: Text("S", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+              ),
+            ],
           ),
           SizedBox(width: 15),
         ],
