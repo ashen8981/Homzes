@@ -6,7 +6,7 @@ class PropertyRepository {
 
   Future<List<PropertyModel>> fetchProperties() async {
     try {
-      QuerySnapshot snapshot = await _firestore.collection('properties').get();
+      QuerySnapshot snapshot = await _firestore.collection('attraction').get();
       return snapshot.docs.map((doc) => PropertyModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
     } catch (e) {
       throw Exception("Failed to fetch properties: $e");
