@@ -61,7 +61,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar(BuildContext context) {
             child: Column(
               children: [
                 Container(
-                  height: 40,
+                  height: 45,
                   decoration: BoxDecoration(
                     color: ThemeColors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -72,7 +72,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar(BuildContext context) {
                       hintStyle: TextStyle(color: ThemeColors.charcoalGray),
                       prefixIcon: Icon(Icons.search, color: ThemeColors.charcoalGray),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      contentPadding: EdgeInsets.symmetric(vertical: 12),
                     ),
                   ),
                 ),
