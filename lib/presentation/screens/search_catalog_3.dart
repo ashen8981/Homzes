@@ -15,6 +15,7 @@ class SearchCatalog3Screen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: ThemeColors.white,
       appBar: buildSearchCatalog3AppBar(context),
       body: BlocProvider(
         create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
