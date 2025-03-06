@@ -11,4 +11,5 @@ class ThemeColors {
   static const Color gray = Color(0xFFA9A9A9);
   static const Color red = Colors.red;
   static const Color white = Colors.white;
+  static const Color customRed = Color.fromRGBO(222, 93, 131, 1);
 }

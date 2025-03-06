@@ -37,7 +37,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
                       width: 10,
                       height: 10,
                       decoration: BoxDecoration(
-                        color: ThemeColors.red,
+                        color: ThemeColors.customRed,
                         shape: BoxShape.circle,
                       ),
                     ),

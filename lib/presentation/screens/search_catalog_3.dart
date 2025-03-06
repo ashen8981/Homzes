@@ -24,7 +24,7 @@ class SearchCatalog3Screen extends StatelessWidget {
               SizedBox(height: 20),
               Align(alignment: Alignment.center, child: buildSectionHeader("Popular rent offers")),
               SizedBox(height: 15),
-              Expanded(child: _buildOffersList()),
+              Expanded(child: buildOffersList()),
             ],
           ),
         ),
@@ -39,7 +39,7 @@ class SearchCatalog3Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildOffersList() {
+  Widget buildOffersList() {
     return BlocBuilder<PropertyCubit, PropertyState>(
       builder: (context, state) {
         if (state is PropertyLoading) {
