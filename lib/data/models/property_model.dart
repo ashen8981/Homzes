@@ -3,8 +3,8 @@ class PropertyModel {
   final String image;
   final String location;
   final String price;
-  final int beds;
-  final int baths;
+  final String beds;
+  final String baths;
 
   PropertyModel({
     required this.title,
@@ -20,9 +20,20 @@ class PropertyModel {
       title: json['title'] ?? '',
       image: json['image'] ?? '',
       location: json['location'] ?? '',
-      price: json['price'] ?? '',
-      beds: json['beds'] ?? 0,
-      baths: json['baths'] ?? 0,
+      price: json['price'].toString(),
+      beds: json['beds'].toString(),
+      baths: json['baths'].toString(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'image': image,
+      'location': location,
+      'price': price,
+      'beds': beds,
+      'baths': baths,
+    };
   }
 }
