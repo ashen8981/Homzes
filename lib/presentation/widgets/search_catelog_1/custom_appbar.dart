@@ -17,7 +17,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
             children: [
               Text(
                 "Hi, Stanislav",
-                style: TextStyle(color: ThemeColors.charcoalGray, fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(color: ThemeColors.charcoalGray, fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SizedBox(width: 12),
               Stack(
@@ -27,7 +27,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
                     backgroundColor: ThemeColors.gray,
                     child: Text(
                       "S",
-                      style: TextStyle(fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: ThemeColors.charcoalGray),
                     ),
                   ),
                   Positioned(

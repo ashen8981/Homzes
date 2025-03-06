@@ -22,8 +22,8 @@ class SearchCatalog3Screen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
-              buildSectionHeader("Popular rent offers"),
-              SizedBox(height: 10),
+              Align(alignment: Alignment.center, child: buildSectionHeader("Popular rent offers")),
+              SizedBox(height: 15),
               Expanded(child: _buildOffersList()),
             ],
           ),
@@ -35,7 +35,7 @@ class SearchCatalog3Screen extends StatelessWidget {
   Widget buildSectionHeader(String title) {
     return Text(
       title,
-      style: TextStyle(fontSize: 18, color: ThemeColors.charcoalGray, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 18, color: ThemeColors.charcoalGray, fontWeight: FontWeight.w700),
     );
   }
 
@@ -63,7 +63,7 @@ class SearchCatalog3Screen extends StatelessWidget {
 
   Widget buildOfferItem(PropertyModel property) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15),
+      margin: EdgeInsets.only(bottom: 5),
       decoration: BoxDecoration(
         color: ThemeColors.white,
       ),
@@ -110,7 +110,7 @@ class SearchCatalog3Screen extends StatelessWidget {
                 Row(
                   children: [
                     Text(property.title,
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray)),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: ThemeColors.charcoalGray)),
                     Spacer(),
                     RichText(
                       text: TextSpan(
@@ -118,8 +118,8 @@ class SearchCatalog3Screen extends StatelessWidget {
                           TextSpan(
                             text: property.price,
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
                               color: ThemeColors.charcoalGray,
                             ),
                           ),
@@ -127,7 +127,7 @@ class SearchCatalog3Screen extends StatelessWidget {
                             text: " / mo",
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               color: ThemeColors.charcoalGray,
                             ),
                           ),
@@ -137,7 +137,8 @@ class SearchCatalog3Screen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 5),
-                Text(property.location, style: TextStyle(fontSize: 14, color: ThemeColors.mediumGray)),
+                Text(property.location,
+                    style: TextStyle(fontSize: 14, color: ThemeColors.mediumGray, fontWeight: FontWeight.w400)),
                 SizedBox(height: 10),
               ],
             ),
@@ -156,7 +157,7 @@ class SearchCatalog3Screen extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(color: ThemeColors.charcoalGray, fontSize: 12, fontWeight: FontWeight.bold),
+        style: TextStyle(color: ThemeColors.charcoalGray, fontSize: 12, fontWeight: FontWeight.w600),
       ),
     );
   }

@@ -28,9 +28,9 @@ class SearchCatalog1Screen extends StatelessWidget {
               buildSectionHeader("Featured", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
               SizedBox(height: 10),
               buildFeaturedList(screenWidth),
-              SizedBox(height: 20),
-              buildSectionHeader("New offers", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
               SizedBox(height: 10),
+              buildSectionHeader("New offers", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
+              SizedBox(height: 15),
               Expanded(child: buildNewOffers(screenWidth, screenHeight)),
             ],
           ),
@@ -43,10 +43,11 @@ class SearchCatalog1Screen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray)),
+        Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: ThemeColors.charcoalGray)),
         GestureDetector(
           onTap: onViewAll,
-          child: Text("View all", style: TextStyle(color: ThemeColors.mediumGray, fontWeight: FontWeight.bold)),
+          child: Text("View all",
+              style: TextStyle(fontSize: 14, color: ThemeColors.mediumGray, fontWeight: FontWeight.w600)),
         ),
       ],
     );
@@ -104,7 +105,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                       color: ThemeColors.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Text(property.price, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                    child: Text(property.price, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
                   ),
                 ),
               ],
@@ -115,7 +116,7 @@ class SearchCatalog1Screen extends StatelessWidget {
             width: width,
             child: Text(
               property.title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               maxLines: 2, // Allow up to two lines
               overflow: TextOverflow.ellipsis, // Show ellipsis if text overflows
               softWrap: true, // Enable soft wrap to allow text to break into new lines

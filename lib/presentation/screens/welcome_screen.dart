@@ -61,15 +61,15 @@ class WelcomeScreen extends StatelessWidget {
                           Text(
                             "Homzes",
                             style: TextStyle(
-                              fontSize: 32,
+                              fontSize: 28,
                               fontWeight: FontWeight.bold,
                               color: ThemeColors.white,
                             ),
                           ),
                           Spacer(),
                           Container(
-                            width: 50,
-                            height: 50,
+                            width: 45,
+                            height: 45,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(color: ThemeColors.white, width: 2),
@@ -93,7 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                         "Find the best\nplace for you",
                         style: TextStyle(
                           fontSize: 36,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
                           color: ThemeColors.white,
                         ),
                       ),
@@ -128,7 +128,7 @@ class WelcomeScreen extends StatelessWidget {
                         onPressed: () => Navigator.pushNamed(context, Routes.searchCatalog1),
                         child: Text(
                           "Create an account",
-                          style: TextStyle(fontSize: 18, color: ThemeColors.white),
+                          style: TextStyle(fontSize: 16, color: ThemeColors.white, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),

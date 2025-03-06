@@ -47,7 +47,6 @@ Widget buildSearchBar() {
     decoration: BoxDecoration(
       color: ThemeColors.white,
       borderRadius: BorderRadius.circular(30),
-      boxShadow: [BoxShadow(color: ThemeColors.charcoalGray, blurRadius: 5, spreadRadius: 1)],
     ),
     child: TextField(
       decoration: InputDecoration(

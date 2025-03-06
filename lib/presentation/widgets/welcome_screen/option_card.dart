@@ -7,7 +7,7 @@ Widget buildOptionCard(BuildContext context, IconData icon, String title, Color 
     margin: EdgeInsets.symmetric(horizontal: 5),
     decoration: BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(25),
       boxShadow: [
         BoxShadow(
           color: Colors.black12,
@@ -36,7 +36,7 @@ Widget buildOptionCard(BuildContext context, IconData icon, String title, Color 
           padding: const EdgeInsets.only(bottom: 20.0, left: 15.0),
           child: Text(
             title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: ThemeColors.charcoalGray),
           ),
         ),
       ],
