@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/routes/app_routes.dart';
 import '../blocs/background_image_cubit.dart';
 import '../../data/repositories/background_image_repository.dart';
+import '../widgets/welcome_screen/option_card.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -20,13 +21,22 @@ class WelcomeScreen extends StatelessWidget {
                 if (state is BackgroundImageLoading) {
                   return Center(child: CircularProgressIndicator());
                 } else if (state is BackgroundImageLoaded) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(state.image.img.toString()),
-                        fit: BoxFit.cover,
+                  return Stack(
+                    children: [
+                      // Background Image
+                      Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(state.image.img.toString()),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
+                      // Black Overlay with Opacity
+                      Container(
+                        color: Colors.black.withAlpha((0.7 * 255).toInt()),
+                      ),
+                    ],
                   );
                 } else if (state is BackgroundImageError) {
                   return Center(child: Text("Error loading background"));
@@ -66,23 +76,31 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     Spacer(),
                     // Title Text
-                    Text(
-                      "Find the best place for you",
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    Center(
+                      child: Text(
+                        "Find the best\nplace for you",
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 35),
                     // Buttons (Rent, Buy, etc.)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildOptionCard(Icons.event_seat, "Rent", Colors.amber.shade100),
-                        _buildOptionCard(Icons.apartment, "Buy", Colors.yellow.shade200),
-                        _buildOptionCard(Icons.house, "Sell", Colors.green.shade100),
-                      ],
+                    SizedBox(
+                      height: 200,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            buildOptionCard(context, Icons.event_seat, "Rent", Colors.amber.shade100),
+                            buildOptionCard(context, Icons.apartment, "Buy", Colors.yellow.shade200),
+                            buildOptionCard(context, Icons.house, "Sell", Colors.green.shade100),
+                            buildOptionCard(context, Icons.business, "Office", Colors.blue.shade100),
+                          ],
+                        ),
+                      ),
                     ),
                     SizedBox(height: 40),
                     // Create Account Button
@@ -93,7 +111,7 @@ class WelcomeScreen extends StatelessWidget {
                           backgroundColor: Colors.green,
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                         onPressed: () => Navigator.pushNamed(context, Routes.searchCatalog1),
@@ -107,37 +125,6 @@ class WelcomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOptionCard(IconData icon, String title, Color color) {
-    return Expanded(
-      child: Container(
-        height: 100,
-        margin: EdgeInsets.symmetric(horizontal: 5),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 5,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 30, color: Colors.black),
-            SizedBox(height: 8),
-            Text(
-              title,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
         ),
