@@ -4,6 +4,7 @@ import 'package:homzes_app/data/models/property_model.dart';
 import '../../data/repositories/property_repository.dart';
 import '../blocs/property_cubit.dart';
 import '../blocs/property_state.dart';
+import '../widgets/search_catelog_3/custom_appbar.dart';
 
 class SearchCatalog3Screen extends StatelessWidget {
   const SearchCatalog3Screen({super.key});
@@ -11,8 +12,7 @@ class SearchCatalog3Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green.shade100,
-      appBar: _buildAppBar(),
+      appBar: buildSearchCatalog3AppBar(),
       body: BlocProvider(
         create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
         child: Padding(
@@ -20,9 +20,8 @@ class SearchCatalog3Screen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSearchBar(),
               SizedBox(height: 20),
-              _buildSectionHeader("Popular rent offers"),
+              buildSectionHeader("Popular rent offers"),
               SizedBox(height: 10),
               Expanded(child: _buildOffersList()),
             ],
@@ -32,44 +31,7 @@ class SearchCatalog3Screen extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.green.shade200,
-      elevation: 0,
-      title: TextField(
-        decoration: InputDecoration(
-          hintText: "Search",
-          prefixIcon: Icon(Icons.search, color: Colors.black54),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 15),
-        ),
-      ),
-      leading: IconButton(
-        icon: Icon(Icons.menu, color: Colors.black),
-        onPressed: () {},
-      ),
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: "Search",
-          prefixIcon: Icon(Icons.search, color: Colors.black54),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 15),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title) {
+  Widget buildSectionHeader(String title) {
     return Text(
       title,
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -87,7 +49,7 @@ class SearchCatalog3Screen extends StatelessWidget {
             itemCount: state.properties.length,
             itemBuilder: (context, index) {
               final property = state.properties[index];
-              return _buildOfferItem(property);
+              return buildOfferItem(property);
             },
           );
         } else if (state is PropertyError) {
@@ -98,13 +60,11 @@ class SearchCatalog3Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildOfferItem(PropertyModel property) {
+  Widget buildOfferItem(PropertyModel property) {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 2)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,9 +93,9 @@ class SearchCatalog3Screen extends StatelessWidget {
                 left: 10,
                 child: Row(
                   children: [
-                    _buildTag("${property.beds} Beds"),
+                    buildTag("${property.beds} Beds"),
                     SizedBox(width: 5),
-                    _buildTag("${property.baths} Bathrooms"),
+                    buildTag("${property.baths} Bathrooms"),
                   ],
                 ),
               ),
@@ -146,17 +106,19 @@ class SearchCatalog3Screen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Row(
+                  children: [
+                    Text(property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Spacer(),
+                    Text(
+                      "${property.price} / mo",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 5),
                 Text(property.location, style: TextStyle(fontSize: 14, color: Colors.grey)),
                 SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    "${property.price} / mo",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
               ],
             ),
           ),
@@ -165,16 +127,16 @@ class SearchCatalog3Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(String text) {
+  Widget buildTag(String text) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.black87,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
         text,
-        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.black87, fontSize: 12, fontWeight: FontWeight.bold),
       ),
     );
   }
