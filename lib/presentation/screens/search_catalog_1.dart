@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homzes_app/core/routes/app_routes.dart';
+import 'package:homzes_app/data/models/property_model.dart';
+import '../../data/repositories/property_repository.dart';
+import '../blocs/property_cubit.dart';
+import '../blocs/property_state.dart';
 
 class SearchCatalog1Screen extends StatelessWidget {
   const SearchCatalog1Screen({super.key});
@@ -12,21 +17,24 @@ class SearchCatalog1Screen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: _buildAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSearchBar(),
-            SizedBox(height: 20),
-            _buildSectionHeader("Featured", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
-            SizedBox(height: 10),
-            _buildFeaturedList(screenWidth),
-            SizedBox(height: 20),
-            _buildSectionHeader("New offers", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
-            SizedBox(height: 10),
-            Expanded(child: _buildNewOffers(screenWidth, screenHeight)),
-          ],
+      body: BlocProvider(
+        create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSearchBar(),
+              SizedBox(height: 20),
+              _buildSectionHeader("Featured", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
+              SizedBox(height: 10),
+              _buildFeaturedList(screenWidth),
+              SizedBox(height: 20),
+              _buildSectionHeader("New offers", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
+              SizedBox(height: 10),
+              Expanded(child: _buildNewOffers(screenWidth, screenHeight)),
+            ],
+          ),
         ),
       ),
     );
@@ -85,25 +93,31 @@ class SearchCatalog1Screen extends StatelessWidget {
   }
 
   Widget _buildFeaturedList(double screenWidth) {
-    List<String> imagePaths = [
-      "assets/house1.png", // PNG format
-      "assets/house2.jpg", // JPG format
-      "assets/house3.webp", // WEBP format
-    ];
-
-    return SizedBox(
-      height: 140,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: imagePaths.length,
-        itemBuilder: (context, index) {
-          return _buildFeaturedItem(imagePaths[index], "\$${(500 + (index * 150))}", screenWidth * 0.4);
-        },
-      ),
+    return BlocBuilder<PropertyCubit, PropertyState>(
+      builder: (context, state) {
+        if (state is PropertyLoading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is PropertyLoaded) {
+          return SizedBox(
+            height: 140,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.properties.length,
+              itemBuilder: (context, index) {
+                final property = state.properties[index];
+                return _buildFeaturedItem(property, screenWidth * 0.4);
+              },
+            ),
+          );
+        } else if (state is PropertyError) {
+          return Center(child: Text("Error: ${state.error}"));
+        }
+        return Center(child: Text("No properties found"));
+      },
     );
   }
 
-  Widget _buildFeaturedItem(String imagePath, String price, double width) {
+  Widget _buildFeaturedItem(PropertyModel property, double width) {
     return Padding(
       padding: const EdgeInsets.only(right: 12),
       child: Column(
@@ -112,8 +126,8 @@ class SearchCatalog1Screen extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             child: Stack(
               children: [
-                Image.asset(
-                  imagePath,
+                Image.network(
+                  property.image.toString(),
                   width: width,
                   height: 100,
                   fit: BoxFit.cover,
@@ -130,7 +144,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Text(price, style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(property.price, style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -142,23 +156,28 @@ class SearchCatalog1Screen extends StatelessWidget {
   }
 
   Widget _buildNewOffers(double screenWidth, double screenHeight) {
-    List<String> imagePaths = [
-      "assets/house1.png", // PNG format
-      "assets/house2.jpg", // JPG format
-      "assets/house3.webp", // WEBP format
-    ];
-
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return _buildNewOfferItem(
-            imagePaths[index], "Apartment ${index + 3} rooms", "\$${1200 + (index * 200)}", screenWidth, screenHeight);
+    return BlocBuilder<PropertyCubit, PropertyState>(
+      builder: (context, state) {
+        if (state is PropertyLoading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is PropertyLoaded) {
+          return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: state.properties.length,
+            itemBuilder: (context, index) {
+              final property = state.properties[index];
+              return _buildNewOfferItem(property, screenWidth, screenHeight);
+            },
+          );
+        } else if (state is PropertyError) {
+          return Center(child: Text("Error: ${state.error}"));
+        }
+        return Center(child: Text("No properties available"));
       },
     );
   }
 
-  Widget _buildNewOfferItem(String imagePath, String title, String price, double screenWidth, double screenHeight) {
+  Widget _buildNewOfferItem(PropertyModel property, double screenWidth, double screenHeight) {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
@@ -173,8 +192,8 @@ class SearchCatalog1Screen extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                child: Image.asset(
-                  imagePath,
+                child: Image.network(
+                  property.image.toString(),
                   width: screenWidth,
                   height: screenHeight * 0.3,
                   fit: BoxFit.cover,
@@ -195,9 +214,10 @@ class SearchCatalog1Screen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 SizedBox(height: 5),
-                Text(price, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green)),
+                Text("\$${property.price}",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green)),
               ],
             ),
           ),
