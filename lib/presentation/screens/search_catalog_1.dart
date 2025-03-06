@@ -5,6 +5,7 @@ import 'package:homzes_app/data/models/property_model.dart';
 import '../../data/repositories/property_repository.dart';
 import '../blocs/property_cubit.dart';
 import '../blocs/property_state.dart';
+import '../widgets/search_catelog_1/custom_appbar.dart';
 
 class SearchCatalog1Screen extends StatelessWidget {
   const SearchCatalog1Screen({super.key});
@@ -16,7 +17,7 @@ class SearchCatalog1Screen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: _buildAppBar(),
+      appBar: buildSearchCatalog1AppBar(),
       body: BlocProvider(
         create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
         child: Padding(
@@ -24,15 +25,14 @@ class SearchCatalog1Screen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSearchBar(),
               SizedBox(height: 20),
-              _buildSectionHeader("Featured", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
+              buildSectionHeader("Featured", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
               SizedBox(height: 10),
-              _buildFeaturedList(screenWidth),
+              buildFeaturedList(screenWidth),
               SizedBox(height: 20),
-              _buildSectionHeader("New offers", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
+              buildSectionHeader("New offers", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
               SizedBox(height: 10),
-              Expanded(child: _buildNewOffers(screenWidth, screenHeight)),
+              Expanded(child: buildNewOffers(screenWidth, screenHeight)),
             ],
           ),
         ),
@@ -40,46 +40,7 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.yellow.shade200,
-      title: Text(
-        "Hi, Stanislav",
-        style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-      actions: [
-        CircleAvatar(
-          backgroundColor: Colors.grey.shade300,
-          child: Text("S", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-        ),
-        SizedBox(width: 15),
-      ],
-      leading: IconButton(
-        icon: Icon(Icons.menu, color: Colors.black),
-        onPressed: () {},
-      ),
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: "Search",
-          prefixIcon: Icon(Icons.search, color: Colors.black54),
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 15),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title, VoidCallback onViewAll) {
+  Widget buildSectionHeader(String title, VoidCallback onViewAll) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -92,7 +53,7 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeaturedList(double screenWidth) {
+  Widget buildFeaturedList(double screenWidth) {
     return BlocBuilder<PropertyCubit, PropertyState>(
       builder: (context, state) {
         if (state is PropertyLoading) {
@@ -105,7 +66,7 @@ class SearchCatalog1Screen extends StatelessWidget {
               itemCount: state.properties.length,
               itemBuilder: (context, index) {
                 final property = state.properties[index];
-                return _buildFeaturedItem(property, screenWidth * 0.4);
+                return buildFeaturedItem(property, screenWidth * 0.4);
               },
             ),
           );
@@ -117,7 +78,7 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeaturedItem(PropertyModel property, double width) {
+  Widget buildFeaturedItem(PropertyModel property, double width) {
     return Padding(
       padding: const EdgeInsets.only(right: 12),
       child: Column(
@@ -155,7 +116,7 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildNewOffers(double screenWidth, double screenHeight) {
+  Widget buildNewOffers(double screenWidth, double screenHeight) {
     return BlocBuilder<PropertyCubit, PropertyState>(
       builder: (context, state) {
         if (state is PropertyLoading) {
@@ -166,7 +127,7 @@ class SearchCatalog1Screen extends StatelessWidget {
             itemCount: state.properties.length,
             itemBuilder: (context, index) {
               final property = state.properties[index];
-              return _buildNewOfferItem(property, screenWidth, screenHeight);
+              return buildNewOfferItem(property, screenWidth, screenHeight);
             },
           );
         } else if (state is PropertyError) {
@@ -177,7 +138,7 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildNewOfferItem(PropertyModel property, double screenWidth, double screenHeight) {
+  Widget buildNewOfferItem(PropertyModel property, double screenWidth, double screenHeight) {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
