@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/colors.dart';
 
 PreferredSizeWidget buildSearchCatalog3AppBar() {
   return PreferredSize(
@@ -9,7 +10,7 @@ PreferredSizeWidget buildSearchCatalog3AppBar() {
         bottomRight: Radius.circular(20),
       ),
       child: AppBar(
-        backgroundColor: Colors.green.shade200,
+        backgroundColor: ThemeColors.lightGreen,
         elevation: 0,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50),
@@ -20,11 +21,11 @@ PreferredSizeWidget buildSearchCatalog3AppBar() {
                 Container(
                   padding: EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: ThemeColors.charcoalGray,
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.menu, color: Colors.white),
+                    icon: Icon(Icons.menu, color: ThemeColors.white),
                     onPressed: () {},
                   ),
                 ),
@@ -44,14 +45,14 @@ Widget buildSearchBar() {
     height: 45,
     width: 300,
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: ThemeColors.white,
       borderRadius: BorderRadius.circular(30),
-      boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+      boxShadow: [BoxShadow(color: ThemeColors.charcoalGray, blurRadius: 5, spreadRadius: 1)],
     ),
     child: TextField(
       decoration: InputDecoration(
         hintText: "Search",
-        prefixIcon: Icon(Icons.search, color: Colors.black54),
+        prefixIcon: Icon(Icons.search, color: ThemeColors.charcoalGray),
         border: InputBorder.none,
         contentPadding: EdgeInsets.symmetric(vertical: 10),
       ),

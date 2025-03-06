@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homzes_app/core/routes/app_routes.dart';
 import 'package:homzes_app/data/models/property_model.dart';
+import '../../core/constants/colors.dart';
 import '../../data/repositories/property_repository.dart';
 import '../blocs/property_cubit.dart';
 import '../blocs/property_state.dart';
@@ -14,9 +15,7 @@ class SearchCatalog1Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: buildSearchCatalog1AppBar(),
       body: BlocProvider(
         create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
@@ -44,10 +43,10 @@ class SearchCatalog1Screen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray)),
         GestureDetector(
           onTap: onViewAll,
-          child: Text("View all", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+          child: Text("View all", style: TextStyle(color: ThemeColors.mediumGray, fontWeight: FontWeight.bold)),
         ),
       ],
     );
@@ -60,7 +59,7 @@ class SearchCatalog1Screen extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         } else if (state is PropertyLoaded) {
           return SizedBox(
-            height: 140,
+            height: 240,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: state.properties.length,
@@ -90,10 +89,10 @@ class SearchCatalog1Screen extends StatelessWidget {
                 Image.network(
                   property.image.toString(),
                   width: width,
-                  height: 100,
+                  height: 170,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error, size: 50, color: Colors.red);
+                    return Icon(Icons.error, size: 50, color: ThemeColors.red);
                   },
                 ),
                 Positioned(
@@ -102,15 +101,26 @@ class SearchCatalog1Screen extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ThemeColors.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Text(property.price, style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: Text(property.price, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                   ),
                 ),
               ],
             ),
           ),
+          SizedBox(height: 5),
+          SizedBox(
+            width: width,
+            child: Text(
+              property.title,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              maxLines: 2, // Allow up to two lines
+              overflow: TextOverflow.ellipsis, // Show ellipsis if text overflows
+              softWrap: true, // Enable soft wrap to allow text to break into new lines
+            ),
+          )
         ],
       ),
     );
@@ -142,9 +152,7 @@ class SearchCatalog1Screen extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 2)],
+        color: ThemeColors.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,26 +167,36 @@ class SearchCatalog1Screen extends StatelessWidget {
                   height: screenHeight * 0.3,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error, size: 50, color: Colors.red);
+                    return Icon(Icons.error, size: 50, color: ThemeColors.red);
                   },
                 ),
               ),
               Positioned(
                 top: 10,
                 right: 10,
-                child: Icon(Icons.favorite_border, color: Colors.white, size: 30),
+                child: Icon(Icons.favorite_border, color: ThemeColors.white, size: 30),
               ),
             ],
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Column(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                SizedBox(height: 5),
-                Text("\$${property.price}",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green)),
+                Row(
+                  children: [
+                    Icon(Icons.star_border, color: ThemeColors.forestGreen),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2.0, right: 2.0),
+                      child: Text("4.9",
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray)),
+                    ),
+                    Text("(29 reviews)",
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: ThemeColors.mediumGray)),
+                  ],
+                ),
               ],
             ),
           ),

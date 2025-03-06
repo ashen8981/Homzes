@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../core/constants/colors.dart';
 import '../../core/routes/app_routes.dart';
 import '../blocs/background_image_cubit.dart';
 import '../../data/repositories/background_image_repository.dart';
@@ -34,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       // Black Overlay with Opacity
                       Container(
-                        color: Colors.black.withAlpha((0.7 * 255).toInt()),
+                        color: ThemeColors.semiTransparentBlack,
                       ),
                     ],
                   );
@@ -62,14 +63,25 @@ class WelcomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: ThemeColors.white,
                             ),
                           ),
                           Spacer(),
-                          Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                            size: 45,
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: ThemeColors.white, width: 2),
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.menu,
+                                color: ThemeColors.white,
+                                size: 25,
+                              ),
+                              onPressed: () {},
+                            ),
                           )
                         ],
                       ),
@@ -82,7 +94,7 @@ class WelcomeScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: ThemeColors.white,
                         ),
                       ),
                     ),
@@ -94,10 +106,9 @@ class WelcomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            buildOptionCard(context, Icons.event_seat, "Rent", Colors.amber.shade100),
-                            buildOptionCard(context, Icons.apartment, "Buy", Colors.yellow.shade200),
-                            buildOptionCard(context, Icons.house, "Sell", Colors.green.shade100),
-                            buildOptionCard(context, Icons.business, "Office", Colors.blue.shade100),
+                            buildOptionCard(context, Icons.event_seat_outlined, "Rent", ThemeColors.lightCream),
+                            buildOptionCard(context, Icons.maps_home_work_outlined, "Buy", ThemeColors.paleYellow),
+                            buildOptionCard(context, Icons.house, "Sell", ThemeColors.lightGreen),
                           ],
                         ),
                       ),
@@ -108,7 +119,7 @@ class WelcomeScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: ThemeColors.forestGreen,
                           padding: EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -117,7 +128,7 @@ class WelcomeScreen extends StatelessWidget {
                         onPressed: () => Navigator.pushNamed(context, Routes.searchCatalog1),
                         child: Text(
                           "Create an account",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          style: TextStyle(fontSize: 18, color: ThemeColors.white),
                         ),
                       ),
                     ),

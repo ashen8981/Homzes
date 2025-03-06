@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homzes_app/data/models/property_model.dart';
+import '../../core/constants/colors.dart';
 import '../../data/repositories/property_repository.dart';
 import '../blocs/property_cubit.dart';
 import '../blocs/property_state.dart';
@@ -34,7 +35,7 @@ class SearchCatalog3Screen extends StatelessWidget {
   Widget buildSectionHeader(String title) {
     return Text(
       title,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 18, color: ThemeColors.charcoalGray, fontWeight: FontWeight.bold),
     );
   }
 
@@ -64,7 +65,7 @@ class SearchCatalog3Screen extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeColors.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,23 +80,23 @@ class SearchCatalog3Screen extends StatelessWidget {
                   height: 200,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error, size: 50, color: Colors.red);
+                    return Icon(Icons.error, size: 50, color: ThemeColors.red);
                   },
                 ),
               ),
               Positioned(
                 top: 10,
                 right: 10,
-                child: Icon(Icons.favorite_border, color: Colors.white, size: 30),
+                child: Icon(Icons.favorite_border, color: ThemeColors.white, size: 30),
               ),
               Positioned(
                 bottom: 10,
                 left: 10,
                 child: Row(
                   children: [
-                    buildTag("${property.beds} Beds"),
+                    buildTag(property.beds),
                     SizedBox(width: 5),
-                    buildTag("${property.baths} Bathrooms"),
+                    buildTag(property.baths),
                   ],
                 ),
               ),
@@ -108,16 +109,35 @@ class SearchCatalog3Screen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(property.title,
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray)),
                     Spacer(),
-                    Text(
-                      "${property.price} / mo",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: property.price,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: ThemeColors.charcoalGray,
+                            ),
+                          ),
+                          TextSpan(
+                            text: " / mo",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: ThemeColors.charcoalGray,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
                 SizedBox(height: 5),
-                Text(property.location, style: TextStyle(fontSize: 14, color: Colors.grey)),
+                Text(property.location, style: TextStyle(fontSize: 14, color: ThemeColors.mediumGray)),
                 SizedBox(height: 10),
               ],
             ),
@@ -131,12 +151,12 @@ class SearchCatalog3Screen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeColors.white,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
         text,
-        style: TextStyle(color: Colors.black87, fontSize: 12, fontWeight: FontWeight.bold),
+        style: TextStyle(color: ThemeColors.charcoalGray, fontSize: 12, fontWeight: FontWeight.bold),
       ),
     );
   }

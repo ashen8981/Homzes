@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homzes_app/core/constants/colors.dart';
 
 Widget buildOptionCard(BuildContext context, IconData icon, String title, Color color) {
   return Container(
@@ -25,17 +26,17 @@ Widget buildOptionCard(BuildContext context, IconData icon, String title, Color 
               height: 60,
               width: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: ThemeColors.white,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 30, color: Colors.black)),
+              child: Icon(icon, size: 30, color: ThemeColors.charcoalGray)),
         ),
         Spacer(),
         Padding(
           padding: const EdgeInsets.only(bottom: 20.0, left: 15.0),
           child: Text(
             title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray),
           ),
         ),
       ],

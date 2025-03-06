@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/colors.dart';
 
 PreferredSizeWidget buildSearchCatalog1AppBar() {
   return PreferredSize(
@@ -9,26 +10,46 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
         bottomRight: Radius.circular(20),
       ),
       child: AppBar(
-        backgroundColor: Colors.yellow.shade200,
+        backgroundColor: ThemeColors.paleYellow,
         elevation: 0,
         actions: [
           Row(
             children: [
               Text(
                 "Hi, Stanislav",
-                style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(color: ThemeColors.charcoalGray, fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(width: 8),
-              CircleAvatar(
-                backgroundColor: Colors.grey.shade300,
-                child: Text("S", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-              ),
+              SizedBox(width: 12),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: ThemeColors.gray,
+                    child: Text(
+                      "S",
+                      style: TextStyle(fontWeight: FontWeight.bold, color: ThemeColors.charcoalGray),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: ThemeColors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
           SizedBox(width: 15),
         ],
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.black),
+          icon: Icon(Icons.menu, color: ThemeColors.charcoalGray),
           onPressed: () {},
         ),
         bottom: PreferredSize(
@@ -40,14 +61,14 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
                 Container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: ThemeColors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: "Search",
-                      hintStyle: TextStyle(color: Colors.black54),
-                      prefixIcon: Icon(Icons.search, color: Colors.black54),
+                      hintStyle: TextStyle(color: ThemeColors.charcoalGray),
+                      prefixIcon: Icon(Icons.search, color: ThemeColors.charcoalGray),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(vertical: 0),
                     ),
