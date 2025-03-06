@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:homzes_app/data/models/property_model.dart';
+import '../../data/repositories/property_repository.dart';
+import '../blocs/property_cubit.dart';
+import '../blocs/property_state.dart';
 
 class SearchCatalog3Screen extends StatelessWidget {
   const SearchCatalog3Screen({super.key});
@@ -8,17 +13,20 @@ class SearchCatalog3Screen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.green.shade100,
       appBar: _buildAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSearchBar(),
-            SizedBox(height: 20),
-            _buildSectionHeader("Popular rent offers"),
-            SizedBox(height: 10),
-            Expanded(child: _buildOffersList()),
-          ],
+      body: BlocProvider(
+        create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSearchBar(),
+              SizedBox(height: 20),
+              _buildSectionHeader("Popular rent offers"),
+              SizedBox(height: 10),
+              Expanded(child: _buildOffersList()),
+            ],
+          ),
         ),
       ),
     );
@@ -69,35 +77,28 @@ class SearchCatalog3Screen extends StatelessWidget {
   }
 
   Widget _buildOffersList() {
-    List<Map<String, String>> offers = [
-      {
-        "image": "assets/house1.png",
-        "title": "Apartment 4 rooms",
-        "location": "Russia, Moscow",
-        "price": "\$1250 / mo",
-        "beds": "3 Beds",
-        "baths": "2 Bathroom"
-      },
-      {
-        "image": "assets/house2.jpg",
-        "title": "Apartment 3 rooms",
-        "location": "Russia, Moscow",
-        "price": "\$1430 / mo",
-        "beds": "2 Beds",
-        "baths": "2 Bathroom"
-      },
-    ];
-
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      itemCount: offers.length,
-      itemBuilder: (context, index) {
-        return _buildOfferItem(offers[index]);
+    return BlocBuilder<PropertyCubit, PropertyState>(
+      builder: (context, state) {
+        if (state is PropertyLoading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is PropertyLoaded) {
+          return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: state.properties.length,
+            itemBuilder: (context, index) {
+              final property = state.properties[index];
+              return _buildOfferItem(property);
+            },
+          );
+        } else if (state is PropertyError) {
+          return Center(child: Text("Error: ${state.error}"));
+        }
+        return Center(child: Text("No properties available"));
       },
     );
   }
 
-  Widget _buildOfferItem(Map<String, String> offer) {
+  Widget _buildOfferItem(PropertyModel property) {
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
@@ -112,11 +113,14 @@ class SearchCatalog3Screen extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                child: Image.asset(
-                  offer["image"]!,
+                child: Image.network(
+                  property.image.toString(),
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.error, size: 50, color: Colors.red);
+                  },
                 ),
               ),
               Positioned(
@@ -129,9 +133,9 @@ class SearchCatalog3Screen extends StatelessWidget {
                 left: 10,
                 child: Row(
                   children: [
-                    _buildTag(offer["beds"]!),
+                    _buildTag("${property.beds} Beds"),
                     SizedBox(width: 5),
-                    _buildTag(offer["baths"]!),
+                    _buildTag("${property.baths} Bathrooms"),
                   ],
                 ),
               ),
@@ -142,14 +146,14 @@ class SearchCatalog3Screen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(offer["title"]!, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(property.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 SizedBox(height: 5),
-                Text(offer["location"]!, style: TextStyle(fontSize: 14, color: Colors.grey)),
+                Text(property.location, style: TextStyle(fontSize: 14, color: Colors.grey)),
                 SizedBox(height: 10),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    offer["price"]!,
+                    "${property.price} / mo",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
