@@ -25,10 +25,5 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-  assets:
-    - assets/welcome_bg.jpg
-    - assets/house1.png
-    - assets/house2.jpg
-    - assets/house3.webp
 
 
