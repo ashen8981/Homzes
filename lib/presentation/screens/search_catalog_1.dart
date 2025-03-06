@@ -16,21 +16,21 @@ class SearchCatalog1Screen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: buildSearchCatalog1AppBar(),
+      appBar: buildSearchCatalog1AppBar(context),
       body: BlocProvider(
         create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenHeight * 0.02),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.02),
               buildSectionHeader("Featured", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
-              SizedBox(height: 10),
-              buildFeaturedList(screenWidth),
-              SizedBox(height: 10),
+              SizedBox(height: screenHeight * 0.012),
+              buildFeaturedList(screenWidth, screenHeight),
+              SizedBox(height: screenHeight * 0.012),
               buildSectionHeader("New offers", () => Navigator.pushNamed(context, Routes.searchCatalog3)),
-              SizedBox(height: 15),
+              SizedBox(height: screenHeight * 0.017),
               Expanded(child: buildNewOffers(screenWidth, screenHeight)),
             ],
           ),
@@ -53,20 +53,20 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  Widget buildFeaturedList(double screenWidth) {
+  Widget buildFeaturedList(double screenWidth, double screenHeight) {
     return BlocBuilder<PropertyCubit, PropertyState>(
       builder: (context, state) {
         if (state is PropertyLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (state is PropertyLoaded) {
           return SizedBox(
-            height: 240,
+            height: screenHeight * 0.27,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: state.properties.length,
               itemBuilder: (context, index) {
                 final property = state.properties[index];
-                return buildFeaturedItem(property, screenWidth * 0.4);
+                return buildFeaturedItem(property, screenWidth * 0.4, screenHeight);
               },
             ),
           );
@@ -78,9 +78,9 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  Widget buildFeaturedItem(PropertyModel property, double width) {
+  Widget buildFeaturedItem(PropertyModel property, double width, double screenHeight) {
     return Padding(
-      padding: const EdgeInsets.only(right: 12),
+      padding: EdgeInsets.only(right: width * 0.05),
       child: Column(
         children: [
           ClipRRect(
@@ -111,7 +111,7 @@ class SearchCatalog1Screen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: screenHeight * 0.008),
           SizedBox(
             width: width,
             child: Text(
@@ -161,7 +161,7 @@ class SearchCatalog1Screen extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15), bottom: Radius.circular(15)),
                 child: Image.network(
                   property.image.toString(),
                   width: screenWidth,

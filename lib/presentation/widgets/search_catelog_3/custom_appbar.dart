@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 
-PreferredSizeWidget buildSearchCatalog3AppBar() {
+PreferredSizeWidget buildSearchCatalog3AppBar(BuildContext context) {
+  final double screenWidth = MediaQuery.of(context).size.width;
+  final double screenHeight = MediaQuery.of(context).size.height;
   return PreferredSize(
-    preferredSize: Size.fromHeight(100),
+    preferredSize: Size.fromHeight(screenHeight * 0.12),
     child: ClipRRect(
       borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(20),
-        bottomRight: Radius.circular(20),
+        bottomLeft: Radius.circular(screenWidth * 0.05),
+        bottomRight: Radius.circular(screenWidth * 0.05),
       ),
       child: AppBar(
         backgroundColor: ThemeColors.lightGreen,
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(screenHeight * 0.06),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.04,
+              vertical: screenHeight * 0.02,
+            ),
             child: Row(
               children: [
                 Container(
-                  padding: EdgeInsets.all(4),
+                  padding: EdgeInsets.all(3),
                   decoration: BoxDecoration(
                     color: ThemeColors.charcoalGray,
                     shape: BoxShape.circle,
@@ -30,7 +35,7 @@ PreferredSizeWidget buildSearchCatalog3AppBar() {
                   ),
                 ),
                 SizedBox(width: 15),
-                buildSearchBar(),
+                buildSearchBar(screenWidth),
               ],
             ),
           ),
@@ -40,10 +45,10 @@ PreferredSizeWidget buildSearchCatalog3AppBar() {
   );
 }
 
-Widget buildSearchBar() {
+Widget buildSearchBar(double screenWidth) {
   return Container(
     height: 45,
-    width: 300,
+    width: screenWidth * 0.75,
     decoration: BoxDecoration(
       color: ThemeColors.white,
       borderRadius: BorderRadius.circular(30),

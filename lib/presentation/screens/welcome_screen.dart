@@ -11,6 +11,8 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return BlocProvider(
       create: (context) => BackgroundImageCubit(BackgroundImageRepository())..fetchBackgroundImage(),
       child: Scaffold(
@@ -55,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
                   children: [
                     // App Logo
                     Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01, vertical: screenHeight * 0.03),
                       child: Row(
                         children: [
                           Text(
@@ -98,10 +100,10 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 35),
+                    SizedBox(height: screenHeight * 0.05),
                     // Buttons (Rent, Buy, etc.)
                     SizedBox(
-                      height: 200,
+                      height: screenHeight * 0.23,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -113,7 +115,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: screenHeight * 0.022),
                     // Create Account Button
                     SizedBox(
                       width: double.infinity,
@@ -132,7 +134,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: screenHeight * 0.04),
                   ],
                 ),
               ),

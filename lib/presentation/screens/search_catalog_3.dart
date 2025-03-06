@@ -12,19 +12,21 @@ class SearchCatalog3Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: buildSearchCatalog3AppBar(),
+      appBar: buildSearchCatalog3AppBar(context),
       body: BlocProvider(
         create: (context) => PropertyCubit(PropertyRepository())..fetchProperties(),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenHeight * 0.02),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.011),
               Align(alignment: Alignment.center, child: buildSectionHeader("Popular rent offers")),
-              SizedBox(height: 15),
-              Expanded(child: buildOffersList()),
+              SizedBox(height: screenHeight * 0.017),
+              Expanded(child: buildOffersList(screenWidth, screenHeight)),
             ],
           ),
         ),
@@ -39,7 +41,7 @@ class SearchCatalog3Screen extends StatelessWidget {
     );
   }
 
-  Widget buildOffersList() {
+  Widget buildOffersList(double screenWidth, double screenHeight) {
     return BlocBuilder<PropertyCubit, PropertyState>(
       builder: (context, state) {
         if (state is PropertyLoading) {
@@ -50,7 +52,7 @@ class SearchCatalog3Screen extends StatelessWidget {
             itemCount: state.properties.length,
             itemBuilder: (context, index) {
               final property = state.properties[index];
-              return buildOfferItem(property);
+              return buildOfferItem(property, screenWidth, screenHeight);
             },
           );
         } else if (state is PropertyError) {
@@ -61,7 +63,7 @@ class SearchCatalog3Screen extends StatelessWidget {
     );
   }
 
-  Widget buildOfferItem(PropertyModel property) {
+  Widget buildOfferItem(PropertyModel property, double screenWidth, double screenHeight) {
     return Container(
       margin: EdgeInsets.only(bottom: 5),
       decoration: BoxDecoration(
@@ -73,11 +75,11 @@ class SearchCatalog3Screen extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15), bottom: Radius.circular(15)),
                 child: Image.network(
                   property.image.toString(),
                   width: double.infinity,
-                  height: 200,
+                  height: screenHeight * 0.24,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Icon(Icons.error, size: 50, color: ThemeColors.red);
@@ -94,9 +96,9 @@ class SearchCatalog3Screen extends StatelessWidget {
                 left: 10,
                 child: Row(
                   children: [
-                    buildTag(property.beds),
-                    SizedBox(width: 5),
-                    buildTag(property.baths),
+                    buildTag(property.beds, screenWidth, screenHeight),
+                    SizedBox(width: screenWidth * 0.02),
+                    buildTag(property.baths, screenWidth, screenHeight),
                   ],
                 ),
               ),
@@ -136,10 +138,10 @@ class SearchCatalog3Screen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: screenHeight * 0.005),
                 Text(property.location,
                     style: TextStyle(fontSize: 14, color: ThemeColors.mediumGray, fontWeight: FontWeight.w400)),
-                SizedBox(height: 10),
+                SizedBox(height: screenHeight * 0.01),
               ],
             ),
           ),
@@ -148,9 +150,9 @@ class SearchCatalog3Screen extends StatelessWidget {
     );
   }
 
-  Widget buildTag(String text) {
+  Widget buildTag(String text, double screenWidth, double screenHeight) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02, vertical: screenHeight * 0.005),
       decoration: BoxDecoration(
         color: ThemeColors.white,
         borderRadius: BorderRadius.circular(12),

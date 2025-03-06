@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/colors.dart';
 
-PreferredSizeWidget buildSearchCatalog1AppBar() {
+PreferredSizeWidget buildSearchCatalog1AppBar(BuildContext context) {
+  final double screenWidth = MediaQuery.of(context).size.width;
+  final double screenHeight = MediaQuery.of(context).size.height;
   return PreferredSize(
-    preferredSize: Size.fromHeight(120),
+    preferredSize: Size.fromHeight(screenHeight * 0.15),
     child: ClipRRect(
       borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(20),
-        bottomRight: Radius.circular(20),
+        bottomLeft: Radius.circular(screenWidth * 0.05),
+        bottomRight: Radius.circular(screenWidth * 0.05),
       ),
       child: AppBar(
         backgroundColor: ThemeColors.paleYellow,
@@ -19,7 +21,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
                 "Hi, Stanislav",
                 style: TextStyle(color: ThemeColors.charcoalGray, fontSize: 16, fontWeight: FontWeight.w600),
               ),
-              SizedBox(width: 12),
+              SizedBox(width: screenWidth * 0.03),
               Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -46,7 +48,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
               )
             ],
           ),
-          SizedBox(width: 15),
+          SizedBox(width: screenWidth * 0.04),
         ],
         leading: IconButton(
           icon: Icon(Icons.menu, color: ThemeColors.charcoalGray),
@@ -74,7 +76,7 @@ PreferredSizeWidget buildSearchCatalog1AppBar() {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: screenHeight * 0.01),
               ],
             ),
           ),
